@@ -18,13 +18,19 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install dependencies
+      - name: Install System Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential libsqlite3-dev sqlite3 bzip2 libbz2-dev zlib1g-dev libssl-dev openssl libgdbm-dev libgdbm-compat-dev liblzma-dev libreadline-dev libffi-dev uuid-dev openjdk-17-jdk zip unzip
+          sudo apt-get install -y build-essential libsqlite3-dev sqlite3 bzip2 libbz2-dev zlib1g-dev libssl-dev openssl libgdbm-dev libgdbm-compat-dev liblzma-dev libreadline-dev libffi-dev uuid-dev openjdk-17-jdk zip unzip ccache
           pip install --upgrade pip setuptools
           pip install "cython<3.0.0"
           pip install buildozer
+
+      - name: Auto accept Android SDK licenses
+        run: |
+          mkdir -p ~/.android
+          touch ~/.android/repositories.cfg
+          yes | sdkmanager --sdk_root=$ANDROID_HOME --licenses || true
 
       - name: Build APK with Buildozer
         run: |
