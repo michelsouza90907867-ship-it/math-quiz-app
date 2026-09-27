@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout repository
@@ -25,12 +25,6 @@ jobs:
           pip install --upgrade pip setuptools
           pip install "cython<3.0.0"
           pip install buildozer
-
-      - name: Auto accept Android SDK licenses
-        run: |
-          mkdir -p ~/.android
-          touch ~/.android/repositories.cfg
-          yes | sdkmanager --sdk_root=$ANDROID_HOME --licenses || true
 
       - name: Build APK with Buildozer
         run: |
